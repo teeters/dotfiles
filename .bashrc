@@ -124,5 +124,5 @@ export PATH="$PATH:/home/teeters/.local/bin"
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64 #vital for cuda
 export XDG_DATA_DIRS=${XDG_DATA_DIRS}:/var/lib/snapd/desktop
 
-# (cat ~/.cache/wal/sequences &)
-alias config='usr/bin/git --git-dir=/home/steeter/.cfg/ --work-tree=/home/steeter'
+(cat ~/.cache/wal/sequences &)
+alias config='/usr/bin/git --git-dir=/home/steeter/.cfg/ --work-tree=/home/steeter'

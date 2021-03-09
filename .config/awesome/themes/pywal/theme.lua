@@ -2,21 +2,16 @@
 -- Awesome theme which follows xrdb config --
 --   by Yauhen Kirylau                    --
 ---------------------------------------------
-
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 local xrdb = xresources.get_current_theme()
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
-local awful = require("awful")
 
 -- inherit default theme
 local theme = dofile(themes_path.."default/theme.lua")
 -- load vector assets' generators for this theme
-
--- Rerun pywal
-awful.spawn("/usr/bin/wal -R")
 
 theme.font          = "sans 8"
 
@@ -99,7 +94,7 @@ theme = theme_assets.recolor_titlebar(
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = nil
+theme.icon_theme = "Paper-Mono-Dark"
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(

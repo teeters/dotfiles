@@ -2,14 +2,12 @@
 -- Awesome theme which follows xrdb config --
 --   by Yauhen Kirylau                    --
 ---------------------------------------------
-
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 local xrdb = xresources.get_current_theme()
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
-local awful = require("awful")
 
 -- inherit default theme
 local theme = dofile(themes_path.."default/theme.lua")
@@ -129,9 +127,6 @@ end
 theme.wallpaper = function(s)
     return theme_assets.wallpaper(wallpaper_bg, wallpaper_fg, wallpaper_alt_fg, s)
 end
-
--- Rerun pywal
-awful.spawn("/usr/bin/wal -R")
 
 return theme
 
