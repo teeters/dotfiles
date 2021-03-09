@@ -123,7 +123,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock(" %a %b %d, %l:%M%P ")
+mytextclock = wibox.widget.textclock(" %a %b %d,%l:%M%P ")
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -185,6 +185,21 @@ local function set_wallpaper(s)
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+-- Volume widget
+local volume = lain.widget.pulse {
+   settings = function()
+      vlevel = " "
+      if volume_now.muted == "yes" then
+	 vlevel = vlevel .. ""
+      elseif tonumber(volume_now.left) <= 50 then
+	 vlevel = vlevel .. " " .. volume_now.left .. "%"
+      else
+	 vlevel = vlevel .. " " .. volume_now.left .. "%"
+      end
+      widget:set_markup(vlevel)
+   end
+}
+
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -233,6 +248,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
+	    volume.widget,
             mytextclock,
             s.mylayoutbox,
         },
@@ -371,9 +387,9 @@ globalkeys = gears.table.join(
     awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause", false) end),
     awful.key({ }, "XF86AudioNext", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next", false) end),
     awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous", false) end),
-    awful.key({}, "XF86AudioRaiseVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ +5%") end),
-    awful.key({}, "XF86AudioLowerVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ -5%") end),
-    awful.key({}, "XF86AudioMute", function() os.execute("pactl set-sink-mute @DEFAULT_SINK@ toggle") end)
+    awful.key({}, "XF86AudioRaiseVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ +5%") volume.update() end),
+    awful.key({}, "XF86AudioLowerVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ -5%") volume.update() end),
+    awful.key({}, "XF86AudioMute", function() os.execute("pactl set-sink-mute @DEFAULT_SINK@ toggle") volume.update() end)
 	  
 )
 
