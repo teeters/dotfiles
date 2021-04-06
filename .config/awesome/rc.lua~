@@ -123,7 +123,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock(" %a %b %d, %l:%M%P ")
+mytextclock = wibox.widget.textclock(" %a %b %d %I:%M %p ")
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -185,6 +185,22 @@ local function set_wallpaper(s)
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+-- Volume widget
+local volume = lain.widget.pulse {
+   settings = function()
+      local vlevel = " "
+      local vol = tonumber(volume_now.left)
+      if volume_now.muted == "yes" then
+	 vlevel = vlevel .. ""
+      elseif vol and vol <= 50 then
+	 vlevel = vlevel .. " " .. volume_now.left .. "%"
+      else
+	 vlevel = vlevel .. " " .. volume_now.left .. "%"
+      end
+      widget:set_markup(vlevel)
+   end
+}
+
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -232,7 +248,8 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            wibox.widget.systray(),
+            wibox.widget.systray(true),
+	    volume.widget,
             mytextclock,
             s.mylayoutbox,
         },
@@ -249,10 +266,10 @@ root.buttons(gears.table.join(
 -- }}}
 
 -- {{{ Key bindings
-rofi_cmd = "rofi -modi drun -show drun"
-if theme_name == "pywal" then
-   rofi_cmd = "rofi -modi drun -show drun -theme ~/.cache/wal/colors-rofi-dark"
-end
+-- rofi_cmd = "rofi -modi drun -show drun"
+-- if theme_name == "pywal" then
+rofi_cmd = "rofi -modi drun -show drun -theme ~/.cache/wal/colors-rofi-dark"
+-- end
 
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
@@ -371,9 +388,9 @@ globalkeys = gears.table.join(
     awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause", false) end),
     awful.key({ }, "XF86AudioNext", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next", false) end),
     awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous", false) end),
-    awful.key({}, "XF86AudioRaiseVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ +5%") end),
-    awful.key({}, "XF86AudioLowerVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ -5%") end),
-    awful.key({}, "XF86AudioMute", function() os.execute("pactl set-sink-mute @DEFAULT_SINK@ toggle") end)
+    awful.key({}, "XF86AudioRaiseVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ +5%") volume.update() end),
+    awful.key({}, "XF86AudioLowerVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ -5%") volume.update() end),
+    awful.key({}, "XF86AudioMute", function() os.execute("pactl set-sink-mute @DEFAULT_SINK@ toggle") volume.update() end)
 	  
 )
 
@@ -548,7 +565,9 @@ awful.rules.rules = {
 -- }}}
 
 function should_display_titlebar(c)
-   -- All this because client:floating is not reliable...
+   if c.floating then
+      return true
+   end
    local tag = c.screen.selected_tag
    if tag.layout.name == "floating" then
       return true
@@ -569,7 +588,7 @@ end
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then awful.client.setslave(c) end
 
     if awesome.startup
       and not c.size_hints.user_position
@@ -593,6 +612,11 @@ screen.connect_signal("tag::history::update", function(s)
 			 for k,c in pairs(s.clients) do
 			    update_titlebar_visibility(c)
 			 end
+end)
+
+-- And finally, when the floating property is toggled
+client.connect_signal("property::floating", function(c)
+			 update_titlebar_visibility(c)
 end)
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
@@ -646,12 +670,13 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- Autostarts
 
--- picom
-awful.spawn("picom -CGb --config /home/steeter/.config/picom.conf")
-
 -- Set wallpaper with feh, overriding theme:
-awful.spawn("/home/steeter/.fehbg &")
+--awful.spawn("/home/steeter/.fehbg &")
 
 -- network manager in systray
 awful.spawn("nm-applet")
 awful.spawn("blueman-applet")
+
+-- picom
+awful.spawn("picom -CGb --config /home/steeter/.config/picom.conf")
+-- causes display to freeze as of 3/30/21, though works fine when run from terminal

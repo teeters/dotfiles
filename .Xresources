@@ -1,4 +1,4 @@
-!#include ".xresources.d/solarized"
+#include ".xresources.d/winterberry"
 
 !! URxvt
 

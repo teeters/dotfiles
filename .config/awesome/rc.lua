@@ -123,7 +123,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock(" %a %b %d,%l:%M%P ")
+mytextclock = wibox.widget.textclock(" %a %b %d %I:%M %p ")
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -188,10 +188,11 @@ screen.connect_signal("property::geometry", set_wallpaper)
 -- Volume widget
 local volume = lain.widget.pulse {
    settings = function()
-      vlevel = " "
+      local vlevel = " "
+      local vol = tonumber(volume_now.left)
       if volume_now.muted == "yes" then
 	 vlevel = vlevel .. ""
-      elseif tonumber(volume_now.left) <= 50 then
+      elseif vol and vol <= 50 then
 	 vlevel = vlevel .. " " .. volume_now.left .. "%"
       else
 	 vlevel = vlevel .. " " .. volume_now.left .. "%"
@@ -199,6 +200,27 @@ local volume = lain.widget.pulse {
       widget:set_markup(vlevel)
    end
 }
+
+volume.widget:buttons(awful.util.table.join(
+    awful.button({}, 1, function() -- left click
+	  awful.spawn("pavucontrol", {
+			 floating=true,
+			 placement = awful.placement.top_right
+	  })
+    end),
+    awful.button({}, 3, function() -- right click
+        os.execute(string.format("pactl set-sink-mute %s toggle", volume.device))
+        volume.update()
+    end),
+    awful.button({}, 4, function() -- scroll up
+        os.execute(string.format("pactl set-sink-volume %s +1%%", volume.device))
+        volume.update()
+    end),
+    awful.button({}, 5, function() -- scroll down
+        os.execute(string.format("pactl set-sink-volume %s -1%%", volume.device))
+        volume.update()
+    end)
+))
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
@@ -247,7 +269,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            wibox.widget.systray(),
+            wibox.widget.systray(true),
 	    volume.widget,
             mytextclock,
             s.mylayoutbox,
@@ -265,10 +287,10 @@ root.buttons(gears.table.join(
 -- }}}
 
 -- {{{ Key bindings
-rofi_cmd = "rofi -modi drun -show drun"
-if theme_name == "pywal" then
-   rofi_cmd = "rofi -modi drun -show drun -theme ~/.cache/wal/colors-rofi-dark"
-end
+-- rofi_cmd = "rofi -modi drun -show drun"
+-- if theme_name == "pywal" then
+rofi_cmd = "rofi -modi drun -show drun -theme ~/.cache/wal/colors-rofi-dark"
+-- end
 
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
@@ -564,7 +586,9 @@ awful.rules.rules = {
 -- }}}
 
 function should_display_titlebar(c)
-   -- All this because client:floating is not reliable...
+   if c.floating then
+      return true
+   end
    local tag = c.screen.selected_tag
    if tag.layout.name == "floating" then
       return true
@@ -585,7 +609,7 @@ end
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then awful.client.setslave(c) end
 
     if awesome.startup
       and not c.size_hints.user_position
@@ -609,6 +633,11 @@ screen.connect_signal("tag::history::update", function(s)
 			 for k,c in pairs(s.clients) do
 			    update_titlebar_visibility(c)
 			 end
+end)
+
+-- And finally, when the floating property is toggled
+client.connect_signal("property::floating", function(c)
+			 update_titlebar_visibility(c)
 end)
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
@@ -662,12 +691,13 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- Autostarts
 
--- picom
-awful.spawn("picom -CGb --config /home/steeter/.config/picom.conf")
-
 -- Set wallpaper with feh, overriding theme:
-awful.spawn("/home/steeter/.fehbg &")
+--awful.spawn("/home/steeter/.fehbg &")
 
 -- network manager in systray
 awful.spawn("nm-applet")
 awful.spawn("blueman-applet")
+
+-- picom
+awful.spawn("picom -CGb --config /home/steeter/.config/picom.conf")
+-- causes display to freeze as of 3/30/21, though works fine when run from terminal
