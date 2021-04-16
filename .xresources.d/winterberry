@@ -21,7 +21,9 @@
 
 ! blue
 *.color4:       #2971ea
-*.color12:      #2971ea
+*.color12:	#2971ea
+!*.color12:      #4b86eb
+!^^^ desaturated
 
 ! magenta
 *.color5:       #6c4a79
