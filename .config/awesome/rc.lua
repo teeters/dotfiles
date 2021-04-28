@@ -52,6 +52,7 @@ local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.ge
 beautiful.init(theme_path)
 beautiful.systray_icon_spacing = 2
 beautiful.font = "Inconsolata 10"
+beautiful.icon_theme = "Arc-X-D"
 
 -- lain says to do this in theme.lua, but let's see if we can do it here so it affects all themes
 local theme = beautiful.get()
@@ -68,6 +69,7 @@ lain.layout.cascade.tile.ncol          = 2
 terminal = "termite"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
+browser = "google-chrome-stable"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -80,7 +82,7 @@ modkey = "Mod4"
 awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
-    lain.layout.cascade.tile,
+    --lain.layout.cascade.tile,
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
     --awful.layout.suit.tile.top,
@@ -343,8 +345,11 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
+       {description = "quit awesome", group = "awesome"}),
+    awful.key({ modkey,		  }, "F1", function () awful.spawn(browser) end,
+       {description = "Launch browser"}),
 
+    -- Layout
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
        {description = "increase master width factor", group = "layout"}),
        awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)          end,

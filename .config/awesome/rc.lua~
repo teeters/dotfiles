@@ -47,11 +47,12 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-local theme_name = "pywal"
+local theme_name = "default"
 local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), theme_name)
 beautiful.init(theme_path)
 beautiful.systray_icon_spacing = 2
 beautiful.font = "Inconsolata 10"
+beautiful.icon_theme = "Arc-X-D"
 
 -- lain says to do this in theme.lua, but let's see if we can do it here so it affects all themes
 local theme = beautiful.get()
@@ -68,6 +69,7 @@ lain.layout.cascade.tile.ncol          = 2
 terminal = "termite"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
+browser = "google-chrome-stable"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -159,10 +161,10 @@ local tasklist_buttons = gears.table.join(
                                               awful.menu.client_list({ theme = { width = 250 } })
                                           end),
                      awful.button({ }, 4, function ()
-                                              awful.client.focus.byidx(1)
+                                              awful.client.focus.byidx(-1)
                                           end),
                      awful.button({ }, 5, function ()
-                                              awful.client.focus.byidx(-1)
+                                              awful.client.focus.byidx(1)
                                           end))
 
 -- local function set_wallpaper(s)
@@ -280,9 +282,9 @@ end)
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 5, awful.tag.viewnext),
-    awful.button({ }, 4, awful.tag.viewprev)
+    awful.button({ }, 3, function () mymainmenu:toggle() end)
+--    awful.button({ }, 5, awful.tag.viewnext),
+--    awful.button({ }, 4, awful.tag.viewprev)
 ))
 -- }}}
 
@@ -343,8 +345,11 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
+       {description = "quit awesome", group = "awesome"}),
+    awful.key({ modkey,		  }, "F1", function () awful.spawn(browser) end,
+       {description = "Launch browser"}),
 
+    -- Layout
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
        {description = "increase master width factor", group = "layout"}),
        awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)          end,
