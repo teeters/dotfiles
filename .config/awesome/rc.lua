@@ -51,7 +51,7 @@ local theme_name = "pywal"
 local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), theme_name)
 beautiful.init(theme_path)
 beautiful.systray_icon_spacing = 2
-beautiful.font = "Inconsolata 10"
+beautiful.font = "DejaVu Sans Mono 10"
 beautiful.icon_theme = "Arc-X-D"
 
 -- lain says to do this in theme.lua, but let's see if we can do it here so it affects all themes
@@ -66,7 +66,7 @@ lain.layout.cascade.tile.nmaster       = 1
 lain.layout.cascade.tile.ncol          = 2
 
 -- This is used later as the default terminal and editor to run.
-terminal = "termite"
+terminal = "alacritty"
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = editor
 browser = "google-chrome-stable"

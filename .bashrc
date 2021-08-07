@@ -43,7 +43,7 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -65,8 +65,8 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+xterm*|rxvt*|alacritty)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h\a\]$PS1"
     ;;
 *)
     ;;
@@ -116,13 +116,12 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# shorten prompt
-
 
 # PATH
 export PATH="$PATH:/home/teeters/.local/bin"
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64 #vital for cuda
 export XDG_DATA_DIRS=${XDG_DATA_DIRS}:/var/lib/snapd/desktop
+export XDG_DATA_DIRS=/usr/share:${XDG_DATA_DIRS}
 
 # pywal
 (cat ~/.cache/wal/sequences &)

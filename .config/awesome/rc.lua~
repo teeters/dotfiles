@@ -67,8 +67,8 @@ lain.layout.cascade.tile.ncol          = 2
 
 -- This is used later as the default terminal and editor to run.
 terminal = "termite"
-editor = os.getenv("EDITOR") or "nano"
-editor_cmd = terminal .. " -e " .. editor
+editor = os.getenv("EDITOR") or "emacs"
+editor_cmd = editor
 browser = "google-chrome-stable"
 
 -- Default modkey.
@@ -261,14 +261,20 @@ awful.screen.connect_for_each_screen(function(s)
     -- Add widgets to the wibox
     s.mywibox:setup {
        layout = wibox.layout.align.horizontal,
-       expand = "none",
+       expand = "inside",
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             mylauncher,
             s.mytaglist,
             s.mypromptbox,
         },
-        s.mytasklist, -- Middle widget
+	-- Middle widget
+	--s.mytasklist,
+	{
+	   widget = wibox.container.place,
+	   halign = "center",
+	   s.mytasklist
+	},
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(true),
@@ -348,6 +354,8 @@ globalkeys = gears.table.join(
        {description = "quit awesome", group = "awesome"}),
     awful.key({ modkey,		  }, "F1", function () awful.spawn(browser) end,
        {description = "Launch browser"}),
+    awful.key({ modkey, 	  }, "F2", function () awful.spawn("emacs") end,
+       {description = "Launch editor"}),
 
     -- Layout
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
