@@ -66,7 +66,7 @@ lain.layout.cascade.tile.nmaster       = 1
 lain.layout.cascade.tile.ncol          = 2
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty"
+terminal = "kitty"
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = editor
 browser = "google-chrome-stable"
