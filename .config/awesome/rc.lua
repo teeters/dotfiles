@@ -295,9 +295,9 @@ root.buttons(gears.table.join(
 -- }}}
 
 -- {{{ Key bindings
--- rofi_cmd = "rofi -modi drun -show drun"
+rofi_cmd = "rofi -modi drun -show drun"
 -- if theme_name == "pywal" then
-rofi_cmd = "rofi -modi drun -show drun -theme ~/.cache/wal/colors-rofi-dark"
+-- rofi_cmd = "rofi -modi drun -show drun -theme ~/.cache/wal/colors-rofi-dark"
 -- end
 
 globalkeys = gears.table.join(
