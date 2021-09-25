@@ -23,7 +23,7 @@
 #:     italic_font      Operator Mono Book Italic
 #:     bold_italic_font Operator Mono Medium Italic
 
-# font_size 11.0
+font_size 11.0
 
 #: Font size (in pts)
 
@@ -470,7 +470,7 @@
 
 #: Terminal bell {{{
 
-# enable_audio_bell yes
+enable_audio_bell no 
 
 #: Enable/disable the audio bell. Useful in environments that require
 #: silence.
@@ -884,6 +884,44 @@ background_opacity 0.8
 #: }}}
 
 #: }}}
+
+# special
+foreground      #d9d9d9
+foreground_bold #d9d9d9
+cursor          #d9d9d9
+background      #1a1a1a
+
+# black
+color0  #282a2e
+color8  #707880
+
+# red
+color1  #960046
+color9  #960046
+
+# green
+color2  #00f9bf
+color10 #00f9bf
+
+# yellow
+color3  #ffb84d
+color11 #ffb84d
+
+# blue
+color4  #297fea
+color12 #0075ff
+
+# magenta
+color5  #6c4a79
+color13 #6c4a79
+
+# cyan
+color6  #06defd
+color14 #06defd
+
+# white
+color7  #707880
+color15 #d9d9d9
 
 #: Advanced {{{
 

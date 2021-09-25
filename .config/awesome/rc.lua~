@@ -66,7 +66,7 @@ lain.layout.cascade.tile.nmaster       = 1
 lain.layout.cascade.tile.ncol          = 2
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty"
+terminal = "kitty"
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = editor
 browser = "google-chrome-stable"
@@ -295,9 +295,9 @@ root.buttons(gears.table.join(
 -- }}}
 
 -- {{{ Key bindings
--- rofi_cmd = "rofi -modi drun -show drun"
+rofi_cmd = "rofi -modi drun -show drun"
 -- if theme_name == "pywal" then
-rofi_cmd = "rofi -modi drun -show drun -theme ~/.cache/wal/colors-rofi-dark"
+-- rofi_cmd = "rofi -modi drun -show drun -theme ~/.cache/wal/colors-rofi-dark"
 -- end
 
 globalkeys = gears.table.join(
@@ -569,6 +569,7 @@ awful.rules.rules = {
           "Gpick",
           "Kruler",
           "MessageWin",  -- kalarm.
+		  "Pavucontrol",
           "Sxiv",
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
           "Wpa_gui",
@@ -585,10 +586,10 @@ awful.rules.rules = {
           "ConfigManager",  -- Thunderbird's about:config.
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
-      }, properties = { floating = true }},
+      }, properties = { floating = true, titlebars_enabled=true }},
 
     -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "normal", "dialog" },
+    { rule_any = {type = { "dialog" },
       }, properties = { titlebars_enabled = true }
     },
 
@@ -602,19 +603,21 @@ function should_display_titlebar(c)
    if c.floating then
       return true
    end
-   local tag = c.screen.selected_tag
-   if tag.layout.name == "floating" then
-      return true
-   end
-   return false
+   -- local tag = c.screen.selected_tag
+   -- if tag.layout.name == "floating" then
+   --    return true
+   -- end
+   -- return false
 end
 
 function update_titlebar_visibility(c)
-   if should_display_titlebar(c) then
-      awful.titlebar.show(c)
-   else
-      awful.titlebar.hide(c)
-   end
+   -- if should_display_titlebar(c) then
+   --    awful.titlebar.show(c)
+   -- else
+   --    awful.titlebar.hide(c)
+   -- end
+   gears.debug.print_error(c.class)
+   return
 end
 
 -- {{{ Signals

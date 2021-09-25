@@ -229,7 +229,10 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+	local l = awful.layout.suit;
+	local layouts = { l.max, l.floating, l.tile,
+					  l.floating, l.floating, l.floating, l.floating, l.floating, l.floating }
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, layouts)
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -569,6 +572,7 @@ awful.rules.rules = {
           "Gpick",
           "Kruler",
           "MessageWin",  -- kalarm.
+		  "Pavucontrol",
           "Sxiv",
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
           "Wpa_gui",
@@ -585,10 +589,10 @@ awful.rules.rules = {
           "ConfigManager",  -- Thunderbird's about:config.
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
-      }, properties = { floating = true }},
+      }, properties = { floating = true, titlebars_enabled=true }},
 
     -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "normal", "dialog" },
+    { rule_any = {type = { "dialog" },
       }, properties = { titlebars_enabled = true }
     },
 
@@ -602,19 +606,20 @@ function should_display_titlebar(c)
    if c.floating then
       return true
    end
-   local tag = c.screen.selected_tag
-   if tag.layout.name == "floating" then
-      return true
-   end
-   return false
+   -- local tag = c.screen.selected_tag
+   -- if tag.layout.name == "floating" then
+   --    return true
+   -- end
+   -- return false
 end
 
 function update_titlebar_visibility(c)
-   if should_display_titlebar(c) then
-      awful.titlebar.show(c)
-   else
-      awful.titlebar.hide(c)
-   end
+   -- if should_display_titlebar(c) then
+   --    awful.titlebar.show(c)
+   -- else
+   --    awful.titlebar.hide(c)
+   -- end
+   return
 end
 
 -- {{{ Signals
@@ -713,4 +718,17 @@ awful.spawn("blueman-applet")
 
 -- picom
 awful.spawn("picom -CGb --config /home/steeter/.config/picom.conf")
--- causes display to freeze as of 3/30/21, though works fine when run from terminal
+
+-- Cycorp work setup
+function cycorp_init()
+   -- todo: redefine this if I ever get a second screen
+   -- todo: fix bug with placing electron apps (chrome, slack, spotify) described here: https://github.com/awesomeWM/awesome/issues/2859
+   local t1 = awful.tag.find_by_name(awful.screen.focused(), "1")
+   local t2 = awful.tag.find_by_name(awful.screen.focused(), "2")
+   awful.spawn("nmcli con up steeter_worldwide")
+   awful.spawn(terminal, { floating=false, tag=t1 })
+   awful.spawn("chromium", { floating=false, tag=t1 })
+   awful.spawn("slack", { tag=t2, placement=awful.placement.centered })
+end
+
+local blacklisted_snid = setmetatable({}, {__mode = "v" })
