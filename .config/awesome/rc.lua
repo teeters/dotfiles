@@ -80,7 +80,8 @@ modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    awful.layout.suit.floating,
+   awful.layout.suit.floating,
+   awful.layout.suit.max,
     awful.layout.suit.tile,
     --lain.layout.cascade.tile,
     --awful.layout.suit.tile.left,
@@ -90,7 +91,6 @@ awful.layout.layouts = {
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
     --awful.layout.suit.max.fullscreen,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.corner.nw,
@@ -356,9 +356,11 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
        {description = "quit awesome", group = "awesome"}),
     awful.key({ modkey,		  }, "F1", function () awful.spawn(browser) end,
-       {description = "Launch browser"}),
+       {description = "Launch browser", group="launcher"}),
     awful.key({ modkey, 	  }, "F2", function () awful.spawn("emacs") end,
-       {description = "Launch editor"}),
+       {description = "Launch editor", group="launcher"}),
+	awful.key({               }, "Print", function () awful.spawn.with_shell("scrot -s --line mode=edge -e 'xclip -selection clipboard -t image/png -i $f'") end,
+	   {description = "Screenshot selection to clipboard", group="launcher"}),
 
     -- Layout
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
