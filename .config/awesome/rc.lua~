@@ -80,17 +80,17 @@ modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    awful.layout.suit.floating,
+   awful.layout.suit.floating,
+   awful.layout.suit.max,
     awful.layout.suit.tile,
     --lain.layout.cascade.tile,
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
-    --awful.layout.suit.tile.top,
+    awful.layout.suit.tile.top,
     --awful.layout.suit.fair,
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
     --awful.layout.suit.max.fullscreen,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.corner.nw,
@@ -229,7 +229,10 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+	local l = awful.layout.suit;
+	local layouts = { l.max, l.floating, l.floating,
+					  l.floating, l.floating, l.floating, l.floating, l.floating, l.floating }
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, layouts)
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -353,9 +356,11 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
        {description = "quit awesome", group = "awesome"}),
     awful.key({ modkey,		  }, "F1", function () awful.spawn(browser) end,
-       {description = "Launch browser"}),
+       {description = "Launch browser", group="launcher"}),
     awful.key({ modkey, 	  }, "F2", function () awful.spawn("emacs") end,
-       {description = "Launch editor"}),
+       {description = "Launch editor", group="launcher"}),
+	awful.key({               }, "Print", function () awful.spawn.with_shell("scrot -s --line mode=edge -e 'xclip -selection clipboard -t image/png -i $f'") end,
+	   {description = "Screenshot selection to clipboard", group="launcher"}),
 
     -- Layout
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
@@ -566,6 +571,7 @@ awful.rules.rules = {
         class = {
           "Arandr",
           "Blueman-manager",
+		  "Blueman-adapters",
           "Gpick",
           "Kruler",
           "MessageWin",  -- kalarm.
@@ -616,7 +622,6 @@ function update_titlebar_visibility(c)
    -- else
    --    awful.titlebar.hide(c)
    -- end
-   gears.debug.print_error(c.class)
    return
 end
 
@@ -687,8 +692,8 @@ client.connect_signal("request::titlebars", function(c)
         { -- Right
             awful.titlebar.widget.floatingbutton (c),
             awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.stickybutton   (c),
-            awful.titlebar.widget.ontopbutton    (c),
+            --awful.titlebar.widget.stickybutton   (c),
+            --awful.titlebar.widget.ontopbutton    (c),
             awful.titlebar.widget.closebutton    (c),
             layout = wibox.layout.fixed.horizontal()
         },
@@ -716,4 +721,17 @@ awful.spawn("blueman-applet")
 
 -- picom
 awful.spawn("picom -CGb --config /home/steeter/.config/picom.conf")
--- causes display to freeze as of 3/30/21, though works fine when run from terminal
+
+-- Cycorp work setup
+function cycorp_init()
+   -- todo: redefine this if I ever get a second screen
+   -- todo: fix bug with placing electron apps (chrome, slack, spotify) described here: https://github.com/awesomeWM/awesome/issues/2859
+   local t1 = awful.tag.find_by_name(awful.screen.focused(), "1")
+   local t2 = awful.tag.find_by_name(awful.screen.focused(), "2")
+   awful.spawn("nmcli con up steeter_worldwide")
+   awful.spawn(terminal, { floating=false, tag=t1 })
+   awful.spawn("chromium", { floating=false, tag=t1 })
+   awful.spawn("slack", { tag=t2, placement=awful.placement.centered })
+end
+
+local blacklisted_snid = setmetatable({}, {__mode = "v" })

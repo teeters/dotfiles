@@ -86,7 +86,7 @@ awful.layout.layouts = {
     --lain.layout.cascade.tile,
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
-    --awful.layout.suit.tile.top,
+    awful.layout.suit.tile.top,
     --awful.layout.suit.fair,
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
@@ -359,8 +359,10 @@ globalkeys = gears.table.join(
        {description = "Launch browser", group="launcher"}),
     awful.key({ modkey, 	  }, "F2", function () awful.spawn("emacs") end,
        {description = "Launch editor", group="launcher"}),
-	awful.key({               }, "Print", function () awful.spawn.with_shell("scrot -s --line mode=edge -e 'xclip -selection clipboard -t image/png -i $f'") end,
+	awful.key({               }, "Print", function () awful.spawn.with_shell("scrot -s --line mode=edge -e 'xclip -selection clipboard -t image/png -i $f && rm $f'") end,
 	   {description = "Screenshot selection to clipboard", group="launcher"}),
+	awful.key({"Control"      }, "Print", function () awful.spawn.with_shell("scrot -s --line mode=edge ~/Pictures/Screenshots/%Y-%m-%d-%H:%M:%OS.png") end,
+	   {description = "Screenshot selection to file", group="launcher"}),
 
     -- Layout
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
@@ -571,6 +573,7 @@ awful.rules.rules = {
         class = {
           "Arandr",
           "Blueman-manager",
+		  "Blueman-adapters",
           "Gpick",
           "Kruler",
           "MessageWin",  -- kalarm.
@@ -691,8 +694,8 @@ client.connect_signal("request::titlebars", function(c)
         { -- Right
             awful.titlebar.widget.floatingbutton (c),
             awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.stickybutton   (c),
-            awful.titlebar.widget.ontopbutton    (c),
+            --awful.titlebar.widget.stickybutton   (c),
+            --awful.titlebar.widget.ontopbutton    (c),
             awful.titlebar.widget.closebutton    (c),
             layout = wibox.layout.fixed.horizontal()
         },

@@ -27,6 +27,14 @@
 (global-set-key (kbd "M-C-<down>") 'shrink-window)
 (global-set-key (kbd "M-C-<up>") 'enlarge-window)
 
+;; buffer switching
+(defun er-switch-to-previous-buffer ()
+  "Switch to previously open buffer.
+Repeated invocations toggle between the two most recently open buffers."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+(global-set-key [f2] (quote er-switch-to-previous-buffer))
+
 ;;highlight matching parens
 (progn
   (show-paren-mode 1))
@@ -34,6 +42,13 @@
 ;; editors should be seen, not heard
 (require 'mode-line-bell)
 (mode-line-bell-mode)
+
+;; ibuffer
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(setq ibuffer-expert t)
+(add-hook 'ibuffer-mode-hook
+	  '(lambda ()
+	     (ibuffer-auto-mode 1)))
 
 ;; org mode
 (setq org-blank-before-new-entry '((heading) (plain-list-item)))

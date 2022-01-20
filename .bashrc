@@ -128,3 +128,8 @@ export XDG_DATA_DIRS=/usr/share:${XDG_DATA_DIRS}
 
 # dotfiles
 alias config='/usr/bin/git --git-dir=/home/steeter/.cfg/ --work-tree=/home/steeter'
+
+
+# BEGIN_KITTY_SHELL_INTEGRATION
+if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
+# END_KITTY_SHELL_INTEGRATION
