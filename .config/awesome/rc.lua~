@@ -182,7 +182,7 @@ local tasklist_buttons = gears.table.join(
 -- Custom: use feh instead of manual wallpaper
 local function set_wallpaper(s)
    awful.spawn("/home/steeter/.fehbg")
-   end
+end
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
