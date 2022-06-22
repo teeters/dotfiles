@@ -123,8 +123,10 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64 #vital for cuda
 export XDG_DATA_DIRS=${XDG_DATA_DIRS}:/var/lib/snapd/desktop
 export XDG_DATA_DIRS=/usr/share:${XDG_DATA_DIRS}
 
-# pywal
-(cat ~/.cache/wal/sequences &)
+# pywal just in awesome, when we will be using kitty
+if [ $TERM = xterm-kitty ]; then
+	(cat ~/.cache/wal/sequences &)
+fi
 
 # dotfiles
 alias config='/usr/bin/git --git-dir=/home/steeter/.cfg/ --work-tree=/home/steeter'

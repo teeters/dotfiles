@@ -230,7 +230,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Each screen has its own tag table.
 	local l = awful.layout.suit;
-	local layouts = { l.max, l.floating, l.floating,
+	local layouts = { l.max, l.tile.top, l.floating,
 					  l.floating, l.floating, l.floating, l.floating, l.floating, l.floating }
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, layouts)
 
@@ -421,9 +421,9 @@ globalkeys = gears.table.join(
 
     -- Media keys
     --HACK: Remap the Pause and Calculator buttons. The keyboard itself should handle this but
-    --OpenRGB has borked it.
-    awful.key({ }, "Pause", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause", false) end),
-    awful.key({ }, "XF86Calculator", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next", false) end),
+    --OpenRGB has borked it in the past.
+    --awful.key({ }, "Pause", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause", false) end),
+    --awful.key({ }, "XF86Calculator", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next", false) end),
 
     -- Principled bindings:
     awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause", false) end),
@@ -604,6 +604,13 @@ awful.rules.rules = {
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
+
+	--cycorp work setup
+	{ rule = { class = "Chromium" },
+	  properties = { screen = 1, tag = "1" }},
+
+	{ rule = { class = "Slack" },
+	  properties = { screen = 1, tag = "3" }},
 }
 -- }}}
 
@@ -730,10 +737,20 @@ function cycorp_init()
    -- todo: fix bug with placing electron apps (chrome, slack, spotify) described here: https://github.com/awesomeWM/awesome/issues/2859
    local t1 = awful.tag.find_by_name(awful.screen.focused(), "1")
    local t2 = awful.tag.find_by_name(awful.screen.focused(), "2")
-   awful.spawn("nmcli con up steeter_worldwide")
-   awful.spawn(terminal, { floating=false, tag=t1 })
+   local t3 = awful.tag.find_by_name(awful.screen.focused(), "3")
+   --tag 1: chromium and terminal
+   awful.spawn(terminal.." -e nmcli con up steeter_worldwide", { floating=false, tag=t1 })
    awful.spawn("chromium", { floating=false, tag=t1 })
-   awful.spawn("slack", { tag=t2, placement=awful.placement.centered })
+   --tag 2: emacs and terminal
+   t2.master_width_factor = .15
+   awful.spawn(terminal.." --directory=~/cycorp/catmosetl/", { floating=false, tag=t2 })
+   awful.spawn([[emacs --eval='(progn
+								(cd "~/cycorp/catmosetl/")
+								(split-window-right)
+								(magit-status)
+							   )']], { floating=false, tag=t2 })
+   --tag 3: slack
+   awful.spawn("slack", { tag=t3, placement=awful.placement.centered })
 end
 
 local blacklisted_snid = setmetatable({}, {__mode = "v" })

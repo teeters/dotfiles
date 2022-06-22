@@ -92,7 +92,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'go-mode-hook 'electric-pair-mode)
 
 ;;html
-(setq sgml-quick-keys 'close)
+;;(setq sgml-quick-keys 'close)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
