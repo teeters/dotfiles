@@ -175,6 +175,18 @@ local spotify = spotify_widget{
    pause_icon = "/usr/share/icons/Arc-X-D/actions/24/player_play.png",
    font = "Play 9"
 }
+--Custom buttons for volume:
+--Todo: fork the repo and put these changes in the widget file
+volume:buttons(
+   awful.util.table.join(
+	  awful.button({}, 4, function() volume_widget:inc() end),
+	  awful.button({}, 5, function() volume_widget:dec() end),
+	  awful.button({}, 1, function() awful.spawn("pavucontrol", {
+													floating=true,
+													placement = awful.placement.top_right}) end),
+	  awful.button({}, 3, function() volume_widget:toggle() end)
+   )
+)
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
