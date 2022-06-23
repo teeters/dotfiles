@@ -721,9 +721,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- Autostarts
 
--- Set wallpaper with feh, overriding theme:
---awful.spawn("/home/steeter/.fehbg &")
-
 -- network manager in systray
 awful.spawn("nm-applet")
 awful.spawn("blueman-applet")

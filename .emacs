@@ -91,6 +91,9 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 (add-hook 'go-mode-hook 'electric-pair-mode)
 
+;; lua
+(add-hook 'lua-mode-hook 'electric-pair-mode)
+
 ;;html
 ;;(setq sgml-quick-keys 'close)
 (custom-set-variables
