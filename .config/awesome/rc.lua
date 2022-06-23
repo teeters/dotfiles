@@ -170,8 +170,10 @@ local volume = volume_widget{
    widget_type = 'arc'
 }
 local spotify = spotify_widget{
-   play_icon = "/usr/share/icons/Arc-X-D/actions/24/player_play.png",
-   pause_icon = "/usr/share/icons/Arc-X-D/actions/24/player_pause.png"
+   --inversion is intentional; makes buttons more DWIM
+   play_icon = "/usr/share/icons/Arc-X-D/actions/24/player_pause.png",
+   pause_icon = "/usr/share/icons/Arc-X-D/actions/24/player_play.png",
+   font = "Play 9"
 }
 
 awful.screen.connect_for_each_screen(function(s)
