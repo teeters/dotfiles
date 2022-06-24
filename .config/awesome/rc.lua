@@ -173,7 +173,7 @@ local spotify = spotify_widget{
    --inversion is intentional; makes buttons more DWIM
    play_icon = "/usr/share/icons/Arc-X-D/actions/24/player_pause.png",
    pause_icon = "/usr/share/icons/Arc-X-D/actions/24/player_play.png",
-   font = "Play 9"
+   font = "DejaVu Sans Mono 10"
 }
 --Custom buttons for volume:
 --Todo: fork the repo and put these changes in the widget file
@@ -571,13 +571,6 @@ awful.rules.rules = {
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
-
-	--cycorp work setup
-	{ rule = { class = "Chromium" },
-	  properties = { screen = 1, tag = "1" }},
-
-	{ rule = { class = "Slack" },
-	  properties = { screen = 1, tag = "3" }},
 }
 -- }}}
 
