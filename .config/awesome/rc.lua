@@ -194,7 +194,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Each screen has its own tag table.
 	local l = awful.layout.suit;
-	local layouts = { l.max, l.tile.top, l.floating,
+	local layouts = { l.floating, l.floating, l.floating,
 					  l.floating, l.floating, l.floating, l.floating, l.floating, l.floating }
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, layouts)
 
@@ -544,6 +544,8 @@ awful.rules.rules = {
           "Gpick",
           "Kruler",
           "MessageWin",  -- kalarm.
+		  "Nautilus",
+		  "Thunar",
 		  "Pavucontrol",
           "Sxiv",
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
@@ -571,26 +573,29 @@ awful.rules.rules = {
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
+
+	{ rule = { class = "Slack" },
+	  properties = { screen = 1, tag = "3" } }
 }
 -- }}}
 
 function should_display_titlebar(c)
-   if c.floating then
+   if c.floating and not c.maximized then
       return true
    end
    -- local tag = c.screen.selected_tag
    -- if tag.layout.name == "floating" then
    --    return true
    -- end
-   -- return false
+   return false
 end
 
 function update_titlebar_visibility(c)
-   -- if should_display_titlebar(c) then
-   --    awful.titlebar.show(c)
-   -- else
-   --    awful.titlebar.hide(c)
-   -- end
+   if should_display_titlebar(c) then
+      awful.titlebar.show(c)
+   else
+      awful.titlebar.hide(c)
+   end
    return
 end
 
@@ -695,17 +700,21 @@ function cycorp_init()
    local t1 = awful.tag.find_by_name(awful.screen.focused(), "1")
    local t2 = awful.tag.find_by_name(awful.screen.focused(), "2")
    local t3 = awful.tag.find_by_name(awful.screen.focused(), "3")
+   local l = awful.layout.suit
    --tag 1: chromium and terminal
    awful.spawn(terminal.." -e nmcli con up steeter_worldwide", { floating=false, tag=t1 })
+   awful.layout.set(l.max, t1)
    awful.spawn("chromium", { floating=false, tag=t1 })
    --tag 2: emacs and terminal
+   awful.layout.set(l.tile.top, t2)
    t2.master_width_factor = .15
-   awful.spawn(terminal.." --directory=~/cycorp/catmosetl/", { floating=false, tag=t2 })
-   awful.spawn([[emacs --eval='(progn
-								(cd "~/cycorp/catmosetl/")
-								(split-window-right)
-								(magit-status)
-							   )']], { floating=false, tag=t2 })
+   awful.spawn(terminal.." --directory=~/cycorp/", { floating=false, tag=t2 })
+   -- awful.spawn([[emacs --eval='(progn
+   -- 								(cd "~/cycorp/")
+   -- 								(split-window-right)
+   -- 								(magit-status)
+   -- 							   )']], { floating=false, tag=t2 })
+   awful.spawn("emacs", { floating=false, tag=t2 })
    --tag 3: slack
    awful.spawn("slack", { tag=t3, placement=awful.placement.centered })
 end

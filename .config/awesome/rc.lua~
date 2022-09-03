@@ -544,6 +544,8 @@ awful.rules.rules = {
           "Gpick",
           "Kruler",
           "MessageWin",  -- kalarm.
+		  "Nautilus",
+		  "Thunar",
 		  "Pavucontrol",
           "Sxiv",
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
@@ -572,32 +574,28 @@ awful.rules.rules = {
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
 
-	--cycorp work setup
-	{ rule = { class = "Chromium" },
-	  properties = { screen = 1, tag = "1" }},
-
 	{ rule = { class = "Slack" },
-	  properties = { screen = 1, tag = "3" }},
+	  properties = { screen = 1, tag = "3" } }
 }
 -- }}}
 
 function should_display_titlebar(c)
-   if c.floating then
+   if c.floating and not c.maximized then
       return true
    end
    -- local tag = c.screen.selected_tag
    -- if tag.layout.name == "floating" then
    --    return true
    -- end
-   -- return false
+   return false
 end
 
 function update_titlebar_visibility(c)
-   -- if should_display_titlebar(c) then
-   --    awful.titlebar.show(c)
-   -- else
-   --    awful.titlebar.hide(c)
-   -- end
+   if should_display_titlebar(c) then
+      awful.titlebar.show(c)
+   else
+      awful.titlebar.hide(c)
+   end
    return
 end
 
@@ -707,12 +705,13 @@ function cycorp_init()
    awful.spawn("chromium", { floating=false, tag=t1 })
    --tag 2: emacs and terminal
    t2.master_width_factor = .15
-   awful.spawn(terminal.." --directory=~/cycorp/catmosetl/", { floating=false, tag=t2 })
-   awful.spawn([[emacs --eval='(progn
-								(cd "~/cycorp/catmosetl/")
-								(split-window-right)
-								(magit-status)
-							   )']], { floating=false, tag=t2 })
+   awful.spawn(terminal.." --directory=~/cycorp/", { floating=false, tag=t2 })
+   -- awful.spawn([[emacs --eval='(progn
+   -- 								(cd "~/cycorp/")
+   -- 								(split-window-right)
+   -- 								(magit-status)
+   -- 							   )']], { floating=false, tag=t2 })
+   awful.spawn("emacs", { floating=false, tag=t2 })
    --tag 3: slack
    awful.spawn("slack", { tag=t3, placement=awful.placement.centered })
 end

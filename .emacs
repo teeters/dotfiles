@@ -32,7 +32,7 @@
   "Switch to previously open buffer.
 Repeated invocations toggle between the two most recently open buffers."
   (interactive)
-  (switch-to-buffer (other-buffer (current-buffer) 1)))
+  (switch-to-buffer (other-buffer (current-buffer) nil)))
 (global-set-key [f2] (quote er-switch-to-previous-buffer))
 
 ;;highlight matching parens
@@ -67,6 +67,7 @@ Repeated invocations toggle between the two most recently open buffers."
  elpy-modules (delete 'elpy-module-flymake elpy-modules)
 (require 'pyvenv)
 (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+(add-hook 'elpy-mode-hook 'electric-pair-mode)
 
 ;; javascript
 (require 'js2-mode)
@@ -135,7 +136,7 @@ Repeated invocations toggle between the two most recently open buffers."
  '(nrepl-message-colors
    '("#ec423a" "#db5823" "#c49619" "#687f00" "#c3d255" "#0069b0" "#3cafa5" "#e2468f" "#7a7ed2"))
  '(package-selected-packages
-   '(jedi-direx jedi go-eldoc eldoc gotest company-go ## go-mode rainbow-mode zenburn-theme xresources-theme solarized-theme mode-line-bell magit lua-mode js2-mode gotham-theme elpy afternoon-theme))
+   '(json-mode elpy jedi-direx go-eldoc eldoc gotest company-go ## go-mode rainbow-mode zenburn-theme xresources-theme solarized-theme mode-line-bell magit lua-mode js2-mode gotham-theme afternoon-theme))
  '(pos-tip-background-color "#01323d")
  '(pos-tip-foreground-color "#9eacac")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#93a61a" "#01323d" 0.2))
