@@ -194,7 +194,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Each screen has its own tag table.
 	local l = awful.layout.suit;
-	local layouts = { l.max, l.tile.top, l.floating,
+	local layouts = { l.floating, l.floating, l.floating,
 					  l.floating, l.floating, l.floating, l.floating, l.floating, l.floating }
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, layouts)
 
@@ -700,18 +700,21 @@ function cycorp_init()
    local t1 = awful.tag.find_by_name(awful.screen.focused(), "1")
    local t2 = awful.tag.find_by_name(awful.screen.focused(), "2")
    local t3 = awful.tag.find_by_name(awful.screen.focused(), "3")
+   local l = awful.layout.suit
    --tag 1: chromium and terminal
    awful.spawn(terminal.." -e nmcli con up steeter_worldwide", { floating=false, tag=t1 })
+   awful.layout.set(l.max, t1)
    awful.spawn("chromium", { floating=false, tag=t1 })
    --tag 2: emacs and terminal
+   awful.layout.set(l.tile.top, t2)
    t2.master_width_factor = .15
    awful.spawn(terminal.." --directory=~/cycorp/", { floating=false, tag=t2 })
-   -- awful.spawn([[emacs --eval='(progn
-   -- 								(cd "~/cycorp/")
-   -- 								(split-window-right)
-   -- 								(magit-status)
-   -- 							   )']], { floating=false, tag=t2 })
-   awful.spawn("emacs", { floating=false, tag=t2 })
+    awful.spawn([[emacs --eval='(progn
+    								(cd "~/cycorp/")
+    							   )']], { floating=false, tag=t2 })
+	-- 								(split-window-right)
+	-- 								(magit-status)
+
    --tag 3: slack
    awful.spawn("slack", { tag=t3, placement=awful.placement.centered })
 end

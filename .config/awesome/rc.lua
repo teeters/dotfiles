@@ -389,12 +389,12 @@ globalkeys = gears.table.join(
     -- Media keys
     --HACK: Remap the Pause and Calculator buttons. The keyboard itself should handle this but
     --OpenRGB has borked it in the past.
-    --awful.key({ }, "Pause", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause", false) end),
-    --awful.key({ }, "XF86Calculator", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next", false) end),
+    awful.key({ }, "Pause", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause", false) end),
+    awful.key({ }, "XF86Calculator", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next", false) end),
 
     -- Principled bindings:
-    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause", false) end),
-    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next", false) end),
+    --awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause", false) end),
+    --awful.key({ }, "XF86AudioNext", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next", false) end),
     awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous", false) end),
     awful.key({}, "XF86AudioRaiseVolume", function() volume_widget:inc(5) end),
     awful.key({}, "XF86AudioLowerVolume", function() volume_widget:dec(5) end),
@@ -709,12 +709,12 @@ function cycorp_init()
    awful.layout.set(l.tile.top, t2)
    t2.master_width_factor = .15
    awful.spawn(terminal.." --directory=~/cycorp/", { floating=false, tag=t2 })
-   -- awful.spawn([[emacs --eval='(progn
-   -- 								(cd "~/cycorp/")
-   -- 								(split-window-right)
-   -- 								(magit-status)
-   -- 							   )']], { floating=false, tag=t2 })
-   awful.spawn("emacs", { floating=false, tag=t2 })
+    awful.spawn([[emacs --eval='(progn
+    								(cd "~/cycorp/")
+    							   )']], { floating=false, tag=t2 })
+	-- 								(split-window-right)
+	-- 								(magit-status)
+
    --tag 3: slack
    awful.spawn("slack", { tag=t3, placement=awful.placement.centered })
 end
