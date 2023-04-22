@@ -18,7 +18,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 -- Bling
---local lain = require("lain")
+local lain = require("lain")
 local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 local spotify_widget = require('awesome-wm-widgets.spotify-widget.spotify')
 
@@ -60,7 +60,7 @@ beautiful.icon_theme = "Arc-X-D"
 terminal = "kitty"
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = editor
-browser = "google-chrome-stable"
+browser = "google-chrome-stable --profile-directory='Profile 4'"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -69,6 +69,7 @@ browser = "google-chrome-stable"
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
+lain.layout.cascade.tile.ncol = 2
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
    awful.layout.suit.floating,
@@ -77,6 +78,7 @@ awful.layout.layouts = {
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
+	lain.layout.cascade.tile,
     --awful.layout.suit.fair,
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
@@ -270,6 +272,24 @@ rofi_cmd = "rofi -modi drun -show drun"
 -- rofi_cmd = "rofi -modi drun -show drun -theme ~/.cache/wal/colors-rofi-dark"
 -- end
 
+--focus master/slave
+--modified from here https://www.reddit.com/r/awesomewm/comments/j73j99/toggle_master_with_last_focused_slave/
+local function toggle_focus_master()
+   local c = client.focus
+   if c then
+	  local master = awful.client.getmaster(awful.screen.focused())
+	  local last_focused_window = awful.client.focus.history.get(awful.screen.focused(), 1, nil)
+	  if c == master then
+		 if not last_focused_window then
+            return
+		 end
+		 client.focus = last_focused_window
+	  else
+		 client.focus = master
+	  end
+   end
+end
+
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
@@ -292,6 +312,8 @@ globalkeys = gears.table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
+	awful.key({ modkey,           }, "i", toggle_focus_master,
+	   {description = "focus master or last focused window"}),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
 
@@ -324,6 +346,8 @@ globalkeys = gears.table.join(
        {description = "quit awesome", group = "awesome"}),
     awful.key({ modkey,		  }, "F1", function () awful.spawn(browser) end,
        {description = "Launch browser", group="launcher"}),
+	awful.key({ modkey, "Shift"   }, "F1", function () awful.spawn(browser.." --incognito") end,
+	   {description = "Launch browser in incognito mode", group="launcher"}),
     awful.key({ modkey, 	  }, "F2", function () awful.spawn("emacs") end,
        {description = "Launch editor", group="launcher"}),
 	awful.key({               }, "Print", function () awful.spawn.with_shell("scrot -s --line mode=edge -e 'xclip -selection clipboard -t image/png -i $f && rm $f'") end,
@@ -704,7 +728,7 @@ function cycorp_init()
    --tag 1: chromium and terminal
    awful.spawn(terminal.." -e nmcli con up steeter_worldwide", { floating=false, tag=t1 })
    awful.layout.set(l.max, t1)
-   awful.spawn("chromium", { floating=false, tag=t1 })
+   awful.spawn("google-chrome-stable --profile-directory='Profile 3'", { floating=false, tag=t1 })
    --tag 2: emacs and terminal
    awful.layout.set(l.tile.top, t2)
    t2.master_width_factor = .15
