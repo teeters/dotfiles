@@ -271,6 +271,7 @@ rofi_cmd = "rofi -modi drun -show drun"
 -- if theme_name == "pywal" then
 -- rofi_cmd = "rofi -modi drun -show drun -theme ~/.cache/wal/colors-rofi-dark"
 -- end
+powermenu_cmd = "/home/steeter/.config/rofi/scripts/powermenu_t2"
 
 --focus master/slave
 --modified from here https://www.reddit.com/r/awesomewm/comments/j73j99/toggle_master_with_last_focused_slave/
@@ -350,10 +351,10 @@ globalkeys = gears.table.join(
 	   {description = "Launch browser in incognito mode", group="launcher"}),
     awful.key({ modkey, 	  }, "F2", function () awful.spawn("emacs") end,
        {description = "Launch editor", group="launcher"}),
-	awful.key({               }, "Print", function () awful.spawn.with_shell("scrot -s --line mode=edge -e 'xclip -selection clipboard -t image/png -i $f && rm $f'") end,
+	 awful.key({"Control"      }, "Print", function () awful.spawn.with_shell("scrot -s --line mode=edge -e 'xclip -selection clipboard -t image/png -i $f && rm $f'") end,
 	   {description = "Screenshot selection to clipboard", group="launcher"}),
-	awful.key({"Control"      }, "Print", function () awful.spawn.with_shell("scrot -s --line mode=edge ~/Pictures/Screenshots/%Y-%m-%d-%H:%M:%OS.png") end,
-	   {description = "Screenshot selection to file", group="launcher"}),
+	awful.key({               }, "Print", function () awful.spawn.with_shell("scrot ~/Pictures/Screenshots/%Y-%m-%d-%H:%M:%OS.png") end,
+	   {description = "Screenshot", group="launcher"}),
 
     -- Layout
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
@@ -395,6 +396,8 @@ globalkeys = gears.table.join(
     -- Custom: replace with rofi
     awful.key({ modkey }, "r", function() awful.spawn(rofi_cmd) end,
        {description = "launch rofi", group="launcher"}),
+	awful.key({ modkey }, "End", function() awful.spawn(powermenu_cmd) end,
+	   {description = "launch power menu", group="launcher"}),
     
     awful.key({ modkey }, "x",
               function ()
