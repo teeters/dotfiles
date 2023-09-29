@@ -746,4 +746,19 @@ function cycorp_init()
    awful.spawn("slack", { tag=t3, placement=awful.placement.centered })
 end
 
+-- setup current tag for dev work
+function codespace(path)
+   if path==nil then
+	  path = "~/"
+   end
+   local t = awful.screen.focused().selected_tag --assumption: one tag only
+   local l = awful.layout.suit
+   awful.layout.set(l.tile.top, t)
+   t.master_width_factor = .15
+   awful.spawn(terminal.." --directory="..path, { floating=false, tag=t })
+   awful.spawn([[emacs --eval='(progn
+    								(cd "]]..path..[[")
+    							   )']], { floating=false, tag=t })
+end
+
 local blacklisted_snid = setmetatable({}, {__mode = "v" })

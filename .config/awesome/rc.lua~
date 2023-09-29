@@ -271,6 +271,7 @@ rofi_cmd = "rofi -modi drun -show drun"
 -- if theme_name == "pywal" then
 -- rofi_cmd = "rofi -modi drun -show drun -theme ~/.cache/wal/colors-rofi-dark"
 -- end
+powermenu_cmd = "/home/steeter/.config/rofi/scripts/powermenu_t2"
 
 --focus master/slave
 --modified from here https://www.reddit.com/r/awesomewm/comments/j73j99/toggle_master_with_last_focused_slave/
@@ -395,6 +396,8 @@ globalkeys = gears.table.join(
     -- Custom: replace with rofi
     awful.key({ modkey }, "r", function() awful.spawn(rofi_cmd) end,
        {description = "launch rofi", group="launcher"}),
+	awful.key({ modkey }, "End", function() awful.spawn(powermenu_cmd) end,
+	   {description = "launch power menu", group="launcher"}),
     
     awful.key({ modkey }, "x",
               function ()
@@ -741,6 +744,20 @@ function cycorp_init()
 
    --tag 3: slack
    awful.spawn("slack", { tag=t3, placement=awful.placement.centered })
+end
+
+-- setup current tag for dev work
+function codespace(path)
+   if path==nil then
+	  path = "~/"
+   end
+   local t = awful.screen.focused().selected_tag --assumption: one tag only
+   awful.layout.set(l.tile.top, t)
+   t.master_width_factor = .15
+   awful.spawn(terminal.." --directory="..path, { floating=false, tag=t })
+   awful.spawn([[emacs --eval='(progn
+    								(cd "]]..path..[[")
+    							   )']], { floating=false, tag=t })
 end
 
 local blacklisted_snid = setmetatable({}, {__mode = "v" })
