@@ -68,7 +68,7 @@ confirm_cmd() {
 		-theme-str 'textbox {horizontal-align: 0.5;}' \
 		-dmenu \
 		-p 'Confirmation' \
-		-mesg 'Are you Sure?' \
+		-mesg 'Are you sure?' \
 		-theme ${theme}
 }
 
