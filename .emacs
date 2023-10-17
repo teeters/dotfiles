@@ -68,6 +68,11 @@ Repeated invocations toggle between the two most recently open buffers."
 (require 'pyvenv)
 (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
 (add-hook 'elpy-mode-hook 'electric-pair-mode)
+(add-hook 'python-mode-hook
+		  (lambda ()
+			(setq indent-tabs-mode t)
+			(setq tab-width 4)
+			(setq python-indent-offset 4)))
 
 ;; javascript
 (require 'js2-mode)
