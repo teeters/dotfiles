@@ -60,7 +60,7 @@ beautiful.icon_theme = "Arc-X-D"
 terminal = "kitty"
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = editor
-browser = "google-chrome-stable --profile-directory='Profile 4'"
+browser = "google-chrome-stable --profile-directory='Profile 4' --password-store=gnome-libsecret --use-gl=desktop"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -314,7 +314,7 @@ globalkeys = gears.table.join(
         {description = "focus previous by index", group = "client"}
     ),
 	awful.key({ modkey,           }, "i", toggle_focus_master,
-	   {description = "focus master or last focused window"}),
+	   {description = "focus master or last focused window"}, group="client"),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
 
@@ -731,7 +731,7 @@ function cycorp_init()
    --tag 1: chromium and terminal
    awful.spawn(terminal.." -e nmcli con up steeter_worldwide", { floating=false, tag=t1 })
    awful.layout.set(l.max, t1)
-   awful.spawn("google-chrome-stable --profile-directory='Profile 3'", { floating=false, tag=t1 })
+   awful.spawn("google-chrome-stable --profile-directory='Profile 3' --password-store=gnome-libsecret --use-gl=desktop", { floating=false, tag=t1 })
    --tag 2: emacs and terminal
    awful.layout.set(l.tile.top, t2)
    t2.master_width_factor = .15
@@ -752,6 +752,7 @@ function codespace(path)
 	  path = "~/"
    end
    local t = awful.screen.focused().selected_tag --assumption: one tag only
+   local l = awful.layout.suit
    awful.layout.set(l.tile.top, t)
    t.master_width_factor = .15
    awful.spawn(terminal.." --directory="..path, { floating=false, tag=t })
