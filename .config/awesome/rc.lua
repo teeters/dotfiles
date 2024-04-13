@@ -729,7 +729,8 @@ function cycorp_init()
    local t3 = awful.tag.find_by_name(awful.screen.focused(), "3")
    local l = awful.layout.suit
    --tag 1: chromium and terminal
-   awful.spawn(terminal.." -e nmcli con up steeter_worldwide", { floating=false, tag=t1 })
+   awful.spawn("nmcli con up steeter_worldwide", { floating=false, tag=t1 })
+   awful.spawn(terminal.."-e sshfs steeter@draco:/ ~/cycorp/fs")
    awful.layout.set(l.max, t1)
    awful.spawn("google-chrome-stable --profile-directory='Profile 3' --password-store=gnome-libsecret --use-gl=desktop", { floating=false, tag=t1 })
    --tag 2: emacs and terminal
