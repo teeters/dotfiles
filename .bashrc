@@ -118,7 +118,7 @@ fi
 
 
 # PATH
-export PATH="$PATH:/home/teeters/.local/bin"
+export PATH="$PATH:/home/steeter/.local/bin"
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64 #vital for cuda
 export XDG_DATA_DIRS=${XDG_DATA_DIRS}:/var/lib/snapd/desktop
 export XDG_DATA_DIRS=/usr/share:${XDG_DATA_DIRS}
