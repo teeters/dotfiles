@@ -57,9 +57,10 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'org-mode-hook 'visual-line-mode)
 
 ;; python
-(require 'elpy)
-(require 'jedi)
-(elpy-enable)
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
 (setq
  python-shell-interpreter "ipython3"
  python-shell-interpreter-args "--simple-prompt -i"
@@ -70,8 +71,6 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'elpy-mode-hook 'electric-pair-mode)
 (add-hook 'python-mode-hook
 		  (lambda ()
-			(setq indent-tabs-mode t)
-			(setq tab-width 4)
 			(setq python-indent-offset 4)))
 
 ;; javascript
@@ -141,7 +140,7 @@ Repeated invocations toggle between the two most recently open buffers."
  '(nrepl-message-colors
    '("#ec423a" "#db5823" "#c49619" "#687f00" "#c3d255" "#0069b0" "#3cafa5" "#e2468f" "#7a7ed2"))
  '(package-selected-packages
-   '(markdown-mode json-mode elpy jedi-direx go-eldoc eldoc gotest company-go ## go-mode rainbow-mode zenburn-theme xresources-theme solarized-theme mode-line-bell magit lua-mode js2-mode gotham-theme afternoon-theme))
+   '(markdown-mode json-mode jedi-direx go-eldoc eldoc gotest company-go ## go-mode rainbow-mode zenburn-theme xresources-theme solarized-theme mode-line-bell magit lua-mode js2-mode gotham-theme afternoon-theme))
  '(pos-tip-background-color "#01323d")
  '(pos-tip-foreground-color "#9eacac")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#93a61a" "#01323d" 0.2))
