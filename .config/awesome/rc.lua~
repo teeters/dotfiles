@@ -196,7 +196,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Each screen has its own tag table.
 	local l = awful.layout.suit;
-	local layouts = { l.floating, l.floating, l.floating,
+	local layouts = { l.max, l.floating, l.floating,
 					  l.floating, l.floating, l.floating, l.floating, l.floating, l.floating }
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, layouts)
 
@@ -719,7 +719,7 @@ awful.spawn("nm-applet")
 awful.spawn("blueman-applet")
 
 -- picom
-awful.spawn("picom -CGb --config /home/steeter/.config/picom.conf")
+awful.spawn("picom -b --config /home/steeter/.config/picom.conf")
 
 -- Cycorp work setup
 function cycorp_init()

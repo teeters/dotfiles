@@ -109,38 +109,49 @@ Repeated invocations toggle between the two most recently open buffers."
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
-   ["#01323d" "#ec423a" "#93a61a" "#c49619" "#3c98e0" "#e2468f" "#3cafa5" "#60767e"])
+   ["#01323d" "#ec423a" "#93a61a" "#c49619" "#3c98e0" "#e2468f" "#3cafa5"
+	"#60767e"])
  '(compilation-message-face 'default)
  '(cua-global-mark-cursor-color "#3cafa5")
  '(cua-normal-cursor-color "#8d9fa1")
  '(cua-overwrite-cursor-color "#c49619")
  '(cua-read-only-cursor-color "#93a61a")
  '(custom-safe-themes
-   '("0fffa9669425ff140ff2ae8568c7719705ef33b7a927a0ba7c5e2ffcfac09b75" "e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" "57e3f215bef8784157991c4957965aa31bac935aca011b29d7d8e113a652b693" "1db4be958a1df556190253eaee2717c554402f93d96ff6ec9e206567d906817e" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "e5dc5b39fecbeeb027c13e8bfbf57a865be6e0ed703ac1ffa96476b62d1fae84" default))
+   '("0fffa9669425ff140ff2ae8568c7719705ef33b7a927a0ba7c5e2ffcfac09b75"
+	 "e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9"
+	 "57e3f215bef8784157991c4957965aa31bac935aca011b29d7d8e113a652b693"
+	 "1db4be958a1df556190253eaee2717c554402f93d96ff6ec9e206567d906817e"
+	 "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3"
+	 "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5"
+	 "e5dc5b39fecbeeb027c13e8bfbf57a865be6e0ed703ac1ffa96476b62d1fae84"
+	 default))
  '(fci-rule-color "#01323d")
  '(highlight-changes-colors '("#e2468f" "#7a7ed2"))
  '(highlight-symbol-colors
-   '("#3c6e408d329c" "#0c4a45f54ce3" "#486d33913531" "#1fab3bea568c" "#2ec943ac3324" "#449935a6314d" "#0b03411b5985"))
+   '("#3c6e408d329c" "#0c4a45f54ce3" "#486d33913531" "#1fab3bea568c"
+	 "#2ec943ac3324" "#449935a6314d" "#0b03411b5985"))
  '(highlight-symbol-foreground-color "#9eacac")
  '(highlight-tail-colors
-   '(("#01323d" . 0)
-	 ("#687f00" . 20)
-	 ("#008981" . 30)
-	 ("#0069b0" . 50)
-	 ("#936d00" . 60)
-	 ("#a72e01" . 70)
-	 ("#a81761" . 85)
+   '(("#01323d" . 0) ("#687f00" . 20) ("#008981" . 30) ("#0069b0" . 50)
+	 ("#936d00" . 60) ("#a72e01" . 70) ("#a81761" . 85)
 	 ("#01323d" . 100)))
  '(hl-bg-colors
-   '("#936d00" "#a72e01" "#ae1212" "#a81761" "#3548a2" "#0069b0" "#008981" "#687f00"))
+   '("#936d00" "#a72e01" "#ae1212" "#a81761" "#3548a2" "#0069b0"
+	 "#008981" "#687f00"))
  '(hl-fg-colors
-   '("#002732" "#002732" "#002732" "#002732" "#002732" "#002732" "#002732" "#002732"))
+   '("#002732" "#002732" "#002732" "#002732" "#002732" "#002732"
+	 "#002732" "#002732"))
  '(hl-paren-colors '("#3cafa5" "#c49619" "#3c98e0" "#7a7ed2" "#93a61a"))
  '(lsp-ui-doc-border "#9eacac")
  '(nrepl-message-colors
-   '("#ec423a" "#db5823" "#c49619" "#687f00" "#c3d255" "#0069b0" "#3cafa5" "#e2468f" "#7a7ed2"))
+   '("#ec423a" "#db5823" "#c49619" "#687f00" "#c3d255" "#0069b0"
+	 "#3cafa5" "#e2468f" "#7a7ed2"))
  '(package-selected-packages
-   '(pug-mode markdown-mode json-mode jedi-direx go-eldoc eldoc gotest company-go ## go-mode rainbow-mode zenburn-theme xresources-theme solarized-theme mode-line-bell magit lua-mode js2-mode gotham-theme afternoon-theme))
+   '(afternoon-theme company-go eldoc elpy go-eldoc gotest gotham-theme
+					 jedi-direx js2-mode json-mode lua-mode magit
+					 markdown-mode mode-line-bell pug-mode
+					 rainbow-mode solarized-theme xresources-theme
+					 zenburn-theme))
  '(pos-tip-background-color "#01323d")
  '(pos-tip-foreground-color "#9eacac")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#93a61a" "#01323d" 0.2))
@@ -149,31 +160,25 @@ Repeated invocations toggle between the two most recently open buffers."
  '(vc-annotate-background nil)
  '(vc-annotate-background-mode nil)
  '(vc-annotate-color-map
-   '((20 . "#ec423a")
-	 (40 . "#dace73be2daa")
-	 (60 . "#d06086192512")
-	 (80 . "#c49619")
-	 (100 . "#b55b9c82193d")
-	 (120 . "#ad579f3d1962")
-	 (140 . "#a512a1d61994")
-	 (160 . "#9c81a44d19d1")
-	 (180 . "#93a61a")
-	 (200 . "#84b6a96252b1")
-	 (220 . "#7a4caad86863")
-	 (240 . "#6cbaac617d20")
-	 (260 . "#5a03adfd9174")
-	 (280 . "#3cafa5")
-	 (300 . "#41c4a68fbd73")
-	 (320 . "#41d3a1f1c946")
-	 (340 . "#40119d4ad513")
-	 (360 . "#3c98e0")))
+   '((20 . "#ec423a") (40 . "#dace73be2daa") (60 . "#d06086192512")
+	 (80 . "#c49619") (100 . "#b55b9c82193d") (120 . "#ad579f3d1962")
+	 (140 . "#a512a1d61994") (160 . "#9c81a44d19d1") (180 . "#93a61a")
+	 (200 . "#84b6a96252b1") (220 . "#7a4caad86863")
+	 (240 . "#6cbaac617d20") (260 . "#5a03adfd9174") (280 . "#3cafa5")
+	 (300 . "#41c4a68fbd73") (320 . "#41d3a1f1c946")
+	 (340 . "#40119d4ad513") (360 . "#3c98e0")))
  '(vc-annotate-very-old-color nil)
  '(weechat-color-list
-   '(unspecified "#002732" "#01323d" "#ae1212" "#ec423a" "#687f00" "#93a61a" "#936d00" "#c49619" "#0069b0" "#3c98e0" "#a81761" "#e2468f" "#008981" "#3cafa5" "#8d9fa1" "#60767e"))
+   '(unspecified "#002732" "#01323d" "#ae1212" "#ec423a" "#687f00"
+				 "#93a61a" "#936d00" "#c49619" "#0069b0" "#3c98e0"
+				 "#a81761" "#e2468f" "#008981" "#3cafa5" "#8d9fa1"
+				 "#60767e"))
  '(xterm-color-names
-   ["#01323d" "#ec423a" "#93a61a" "#c49619" "#3c98e0" "#e2468f" "#3cafa5" "#faf3e0"])
+   ["#01323d" "#ec423a" "#93a61a" "#c49619" "#3c98e0" "#e2468f" "#3cafa5"
+	"#faf3e0"])
  '(xterm-color-names-bright
-   ["#002732" "#db5823" "#62787f" "#60767e" "#8d9fa1" "#7a7ed2" "#9eacac" "#ffffee"]))
+   ["#002732" "#db5823" "#62787f" "#60767e" "#8d9fa1" "#7a7ed2" "#9eacac"
+	"#ffffee"]))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
