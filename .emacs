@@ -56,6 +56,10 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;(ox-extras-activate '(ignore-headlines))
 (add-hook 'org-mode-hook 'visual-line-mode)
 
+;; text mode
+(add-hook 'text-mode-hook 'visual-line-mode)
+(add-hook 'text-mode-hook 'flyspell-mode)
+
 ;; python
 (use-package elpy
   :ensure t
@@ -149,7 +153,7 @@ Repeated invocations toggle between the two most recently open buffers."
  '(package-selected-packages
    '(afternoon-theme company-go eldoc elpy go-eldoc gotest gotham-theme
 					 jedi-direx js2-mode json-mode lua-mode magit
-					 markdown-mode mode-line-bell pug-mode
+					 markdown-mode mode-line-bell org pug-mode
 					 rainbow-mode solarized-theme xresources-theme
 					 zenburn-theme))
  '(pos-tip-background-color "#01323d")

@@ -54,7 +54,7 @@ local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.ge
 beautiful.init(theme_path)
 beautiful.systray_icon_spacing = 2
 beautiful.font = "DejaVu Sans Mono 10"
-beautiful.icon_theme = "Arc-X-D"
+beautiful.icon_theme = "Papirus"
 
 -- This is used later as the default terminal and editor to run.
 terminal = "kitty"
@@ -173,9 +173,12 @@ local volume = volume_widget{
 }
 local spotify = spotify_widget{
    --inversion is intentional; makes buttons more DWIM
-   play_icon = "/usr/share/icons/Arc-X-D/actions/24/player_pause.png",
-   pause_icon = "/usr/share/icons/Arc-X-D/actions/24/player_play.png",
+   --play_icon = "/usr/share/icons/Arc-X-D/actions/24/player_pause.png",
+   play_icon = "/home/steeter/.local/share/icons/Papirus/24x24@2x/actions/player_pause.svg",
+   --pause_icon = "/usr/share/icons/Arc-X-D/actions/24/player_play.png",
+   pause_icon = "/home/steeter/.local/share/icons/Papirus/24x24@2x/actions/player_play.svg",
    font = "DejaVu Sans Mono 10"
+   
 }
 --Custom buttons for volume:
 --Todo: fork the repo and put these changes in the widget file
@@ -352,7 +355,9 @@ globalkeys = gears.table.join(
     awful.key({ modkey, 	  }, "F2", function () awful.spawn("emacs") end,
        {description = "Launch editor", group="launcher"}),
 	 awful.key({"Control"      }, "Print", function () awful.spawn.with_shell("scrot -s --line mode=edge -e 'xclip -selection clipboard -t image/png -i $f && rm $f'") end,
-	   {description = "Screenshot selection to clipboard", group="launcher"}),
+		{description = "Screenshot selection to clipboard", group="launcher"}),
+	 awful.key({"Control", "Shift" }, "Print", function () awful.spawn.with_shell("scrot -s --line mode=edge ~/Pictures/Screenshots/%Y-%m-%d-%H:%M:%OS.png") end,
+	   {description = "Screenshot selection to file", group="launcher"}),
 	awful.key({               }, "Print", function () awful.spawn.with_shell("scrot ~/Pictures/Screenshots/%Y-%m-%d-%H:%M:%OS.png") end,
 	   {description = "Screenshot", group="launcher"}),
 
