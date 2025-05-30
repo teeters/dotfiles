@@ -55,6 +55,7 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;(require 'ox-extra)
 ;;(ox-extras-activate '(ignore-headlines))
 (add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook 'org-indent-mode)
 
 ;; text mode
 (add-hook 'text-mode-hook 'visual-line-mode)
