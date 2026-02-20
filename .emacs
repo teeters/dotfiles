@@ -50,10 +50,18 @@ Repeated invocations toggle between the two most recently open buffers."
 	  '(lambda ()
 	     (ibuffer-auto-mode 1)))
 
+;; show recent files on startup
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(add-hook 'after-init-hook 'recentf-open-files)
+(setq initial-buffer-choice 'recentf-open-files)
+
 ;; org mode
 (setq org-blank-before-new-entry '((heading) (plain-list-item)))
 ;;(require 'ox-extra)
 ;;(ox-extras-activate '(ignore-headlines))
+(setq org-export-allow-bind-keywords t)
 (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'org-mode-hook 'org-indent-mode)
 
@@ -111,18 +119,26 @@ Repeated invocations toggle between the two most recently open buffers."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(TeX-view-program-list '(("Okular" ("okular") "")))
+ '(TeX-view-program-selection
+   '(((output-dvi has-no-display-manager) "dvi2tty")
+	 ((output-dvi style-pstricks) "dvips and gv") (output-dvi "xdvi")
+	 (output-pdf "PDF Tools") (output-html "xdg-open")))
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   ["#01323d" "#ec423a" "#93a61a" "#c49619" "#3c98e0" "#e2468f" "#3cafa5"
-	"#60767e"])
- '(compilation-message-face 'default)
- '(cua-global-mark-cursor-color "#3cafa5")
- '(cua-normal-cursor-color "#8d9fa1")
- '(cua-overwrite-cursor-color "#c49619")
- '(cua-read-only-cursor-color "#93a61a")
  '(custom-safe-themes
-   '("0fffa9669425ff140ff2ae8568c7719705ef33b7a927a0ba7c5e2ffcfac09b75"
+   '("00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c"
+	 "09b833239444ac3230f591e35e3c28a4d78f1556b107bafe0eb32b5977204d93"
+	 "b49f66a2e1724db880692485a5d5bcb9baf28ed2a3a05c7a799fa091f24321da"
+	 "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36"
+	 "2b0fcc7cc9be4c09ec5c75405260a85e41691abb1ee28d29fcd5521e4fca575b"
+	 "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1"
+	 "7fea145741b3ca719ae45e6533ad1f49b2a43bf199d9afaee5b6135fd9e6f9b8"
+	 "adb2c32015c42ac06e4cadc87796c6255d7f7d107a2a5f9650672fe90fedd244"
+	 "6f177b9a2579197e650918c8e53440997063b543fc854763e3597b5a4c33860d"
+	 "afde6368be6868e8e3dd53fad1ac51223d5484f9e6836496e7987802c9a9663d"
+	 "a60b04e5c0fef30209f9576f04651938472b57cb1dae0375d80a53a78f515f69"
+	 "0fffa9669425ff140ff2ae8568c7719705ef33b7a927a0ba7c5e2ffcfac09b75"
 	 "e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9"
 	 "57e3f215bef8784157991c4957965aa31bac935aca011b29d7d8e113a652b693"
 	 "1db4be958a1df556190253eaee2717c554402f93d96ff6ec9e206567d906817e"
@@ -130,60 +146,13 @@ Repeated invocations toggle between the two most recently open buffers."
 	 "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5"
 	 "e5dc5b39fecbeeb027c13e8bfbf57a865be6e0ed703ac1ffa96476b62d1fae84"
 	 default))
- '(fci-rule-color "#01323d")
- '(highlight-changes-colors '("#e2468f" "#7a7ed2"))
- '(highlight-symbol-colors
-   '("#3c6e408d329c" "#0c4a45f54ce3" "#486d33913531" "#1fab3bea568c"
-	 "#2ec943ac3324" "#449935a6314d" "#0b03411b5985"))
- '(highlight-symbol-foreground-color "#9eacac")
- '(highlight-tail-colors
-   '(("#01323d" . 0) ("#687f00" . 20) ("#008981" . 30) ("#0069b0" . 50)
-	 ("#936d00" . 60) ("#a72e01" . 70) ("#a81761" . 85)
-	 ("#01323d" . 100)))
- '(hl-bg-colors
-   '("#936d00" "#a72e01" "#ae1212" "#a81761" "#3548a2" "#0069b0"
-	 "#008981" "#687f00"))
- '(hl-fg-colors
-   '("#002732" "#002732" "#002732" "#002732" "#002732" "#002732"
-	 "#002732" "#002732"))
- '(hl-paren-colors '("#3cafa5" "#c49619" "#3c98e0" "#7a7ed2" "#93a61a"))
- '(lsp-ui-doc-border "#9eacac")
- '(nrepl-message-colors
-   '("#ec423a" "#db5823" "#c49619" "#687f00" "#c3d255" "#0069b0"
-	 "#3cafa5" "#e2468f" "#7a7ed2"))
  '(package-selected-packages
-   '(afternoon-theme company-go eldoc elpy go-eldoc gotest gotham-theme
-					 jedi-direx js2-mode json-mode lua-mode magit
-					 markdown-mode mode-line-bell org pug-mode
+   '(afternoon-theme auctex company-go eldoc elpy go-eldoc gotest
+					 gotham-theme jedi-direx js2-mode json-mode
+					 lua-mode magit markdown-mode mode-line-bell
+					 olivetti org org-contrib poet-theme pug-mode
 					 rainbow-mode solarized-theme xresources-theme
-					 zenburn-theme))
- '(pos-tip-background-color "#01323d")
- '(pos-tip-foreground-color "#9eacac")
- '(smartrep-mode-line-active-bg (solarized-color-blend "#93a61a" "#01323d" 0.2))
- '(term-default-bg-color "#002732")
- '(term-default-fg-color "#8d9fa1")
- '(vc-annotate-background nil)
- '(vc-annotate-background-mode nil)
- '(vc-annotate-color-map
-   '((20 . "#ec423a") (40 . "#dace73be2daa") (60 . "#d06086192512")
-	 (80 . "#c49619") (100 . "#b55b9c82193d") (120 . "#ad579f3d1962")
-	 (140 . "#a512a1d61994") (160 . "#9c81a44d19d1") (180 . "#93a61a")
-	 (200 . "#84b6a96252b1") (220 . "#7a4caad86863")
-	 (240 . "#6cbaac617d20") (260 . "#5a03adfd9174") (280 . "#3cafa5")
-	 (300 . "#41c4a68fbd73") (320 . "#41d3a1f1c946")
-	 (340 . "#40119d4ad513") (360 . "#3c98e0")))
- '(vc-annotate-very-old-color nil)
- '(weechat-color-list
-   '(unspecified "#002732" "#01323d" "#ae1212" "#ec423a" "#687f00"
-				 "#93a61a" "#936d00" "#c49619" "#0069b0" "#3c98e0"
-				 "#a81761" "#e2468f" "#008981" "#3cafa5" "#8d9fa1"
-				 "#60767e"))
- '(xterm-color-names
-   ["#01323d" "#ec423a" "#93a61a" "#c49619" "#3c98e0" "#e2468f" "#3cafa5"
-	"#faf3e0"])
- '(xterm-color-names-bright
-   ["#002732" "#db5823" "#62787f" "#60767e" "#8d9fa1" "#7a7ed2" "#9eacac"
-	"#ffffee"]))
+					 zenburn-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
