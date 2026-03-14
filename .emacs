@@ -1,7 +1,5 @@
 ;; melpa
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -57,13 +55,33 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'after-init-hook 'recentf-open-files)
 (setq initial-buffer-choice 'recentf-open-files)
 
+;; preferred keybinding for un-metapointing
+(global-set-key (kbd "M-*") 'xref-go-back)
+
 ;; org mode
 (setq org-blank-before-new-entry '((heading) (plain-list-item)))
-;;(require 'ox-extra)
-;;(ox-extras-activate '(ignore-headlines))
 (setq org-export-allow-bind-keywords t)
 (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'org-mode-hook 'org-indent-mode)
+(add-hook 'org-mode-hook 'org-modern-mode)
+
+;;olivetti
+(require 'olivetti)
+(setq olivetti-body-width 85)
+
+;;org theming
+(add-hook 'org-mode-hook (lambda () (load-theme 'modus-operandi-tinted)))
+
+;; fix weird bug with opening odt files on org export
+;; (setcdr (assq 'system org-file-apps-defaults-gnu) "xdg-open %s")
+(with-eval-after-load 'org
+  (setcdr (assq 'system org-file-apps-gnu) "xdg-open %s"))
+
+(advice-add 'org-open-file :around
+            (lambda (orig-fun &rest args)
+              ;; Work around a weird problem with xdg-open.
+              (let ((process-connection-type nil))
+                (apply orig-fun args))))
 
 ;; text mode
 (add-hook 'text-mode-hook 'visual-line-mode)
@@ -146,11 +164,15 @@ Repeated invocations toggle between the two most recently open buffers."
 	 "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5"
 	 "e5dc5b39fecbeeb027c13e8bfbf57a865be6e0ed703ac1ffa96476b62d1fae84"
 	 default))
+ '(org-export-with-author nil)
+ '(org-export-with-section-numbers nil)
+ '(org-export-with-title nil)
+ '(org-export-with-toc nil)
  '(package-selected-packages
    '(afternoon-theme auctex company-go eldoc elpy go-eldoc gotest
 					 gotham-theme jedi-direx js2-mode json-mode
 					 lua-mode magit markdown-mode mode-line-bell
-					 olivetti org org-contrib poet-theme pug-mode
+					 olivetti org-modern poet-theme pug-mode
 					 rainbow-mode solarized-theme xresources-theme
 					 zenburn-theme)))
 (custom-set-faces
