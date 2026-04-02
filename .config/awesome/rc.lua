@@ -61,7 +61,7 @@ terminal = "kitty"
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = editor
 --browser = "google-chrome-stable --profile-directory='Profile 4' --password-store=gnome-libsecret --use-gl=desktop"
-browser = "flatpak run io.gitlab.librewolf-community"
+browser = "firefox"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -580,6 +580,7 @@ awful.rules.rules = {
 		  "Nautilus",
 		  "nm-connection-editor",
 		  "Thunar",
+		  "Dolphin",
 		  "Pavucontrol",
           "Sxiv",
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
