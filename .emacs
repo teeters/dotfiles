@@ -48,12 +48,16 @@ Repeated invocations toggle between the two most recently open buffers."
 	  '(lambda ()
 	     (ibuffer-auto-mode 1)))
 
-;; show recent files on startup
+;; show recent files on startup unless emacs is already opening a file
 (require 'recentf)
 (recentf-mode 1)
-(setq recentf-max-menu-items 25)
-(add-hook 'after-init-hook 'recentf-open-files)
-(setq initial-buffer-choice 'recentf-open-files)
+(setq recentf-max-menu-items 10)
+(defun st-recent-files-init ()
+  (unless buffer-file-name
+      (recentf-open-files)
+	  (setq initial-buffer-choice 'recentf-open-files)))
+(add-hook 'emacs-startup-hook 'st-recent-files-init)
+
 
 ;; preferred keybinding for un-metapointing
 (global-set-key (kbd "M-*") 'xref-go-back)
@@ -70,7 +74,8 @@ Repeated invocations toggle between the two most recently open buffers."
 (setq olivetti-body-width 85)
 
 ;;org theming
-(add-hook 'org-mode-hook (lambda () (load-theme 'modus-operandi-tinted)))
+;; TODO: create writing mode that toggles modus theme and olivetti mode, maybe
+;;(add-hook 'org-mode-hook (lambda () (load-theme 'modus-operandi-tinted)))
 
 ;; fix weird bug with opening odt files on org export
 ;; (setcdr (assq 'system org-file-apps-defaults-gnu) "xdg-open %s")
@@ -145,7 +150,8 @@ Repeated invocations toggle between the two most recently open buffers."
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(custom-safe-themes
-   '("00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c"
+   '("0f9a1b7a0f1d09544668297c1f04e5a5452ae1f4cf69f11b125f4cff1d54783d"
+	 "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c"
 	 "09b833239444ac3230f591e35e3c28a4d78f1556b107bafe0eb32b5977204d93"
 	 "b49f66a2e1724db880692485a5d5bcb9baf28ed2a3a05c7a799fa091f24321da"
 	 "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36"
